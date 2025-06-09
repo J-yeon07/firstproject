@@ -1,48 +1,84 @@
 import streamlit as st
 
-# 페이지 기본 설정
-st.set_page_config(page_title="MBTI 영화 추천기 🎬", page_icon="🎥")
+# 처음효과
+st.snow()
+st.image("https://media.giphy.com/media/3ohs4BSacFKI7A717y/giphy.gif")
+st.markdown("""
+<div style='text-align: center; font-size: 24px; color: #1f77b4; animation: blinker 1s linear infinite;'>
+  ✨ 당신과 닮은 수학자는 누구일까요? ✨
+</div>
+<style>
+@keyframes blinker {
+  50% { opacity: 0; }
+}
+</style>
+""", unsafe_allow_html=True)
 
-# 제목
-st.title("🎬 MBTI별 수학·과학 영화 추천기 💡")
-st.markdown("너의 MBTI로 🎭 취향 저격 🎯 영화 한 편 골라줄게! 과학과 수학의 세계로 ✨풍~덩✨")
+# 배경음악 (저작권 문제 없는 무료 사운드)
+st.markdown("""
+<audio controls loop>
+  <source src="https://cdn.pixabay.com/midi/2020/07/21/background-meditation-12942.mp3" type="audio/mpeg">
+죄송해요, 브라우저가 오디오를 지원하지 않아요.
+</audio>
+""", unsafe_allow_html=True)
 
-# MBTI 리스트
-mbti_list = [
-    "INTJ", "INTP", "ENTP", "ENTJ",
-    "INFJ", "INFP", "ENFP", "ENFJ",
-    "ISTJ", "ISFJ", "ESTJ", "ESFJ",
-    "ISTP", "ISFP", "ESTP", "ESFP"
-]
+# 제목과 안내
+st.title("🔍 MBTI 기반 수학자 성격 매칭")
+st.markdown("MBTI를 골라보세요 😊 당신과 닮은 수학자를 알려드릴게요!")
 
-# 선택 박스에서 MBTI 선택
-selected_mbti = st.selectbox("👇 아래에서 당신의 MBTI를 선택해주세요!", ["-- 선택하세요 --"] + mbti_list)
+# MBTI 선택
+mbti_list = ["INTJ","INTP","ENTP","ENTJ","INFJ","INFP","ENFP","ENFJ",
+             "ISTJ","ISFJ","ESTJ","ESFJ","ISTP","ISFP","ESTP","ESFP"]
+selected = st.selectbox("📌 당신의 MBTI를 골라주세요:", ["-- 선택 --"]+mbti_list)
 
-# MBTI 별 추천 영화 데이터
-mbti_movies = {
-    "INTJ": ("인터스텔라 🌌", "논리와 전략으로 우주를 건너는 당신에게 딱!"),
-    "INTP": ("굿 윌 헌팅 🧠", "수학 천재의 고독과 따뜻한 성장, 당신이 주인공 같아!"),
-    "ENTP": ("빅 히어로 🎈", "아이디어 넘치는 당신에게 딱인 테크+감성 시너지!"),
-    "ENTJ": ("소셜 네트워크 🌐", "리더십 넘치는 당신, 젊은 CEO의 치열한 이야기 어때요?"),
-    "INFJ": ("콘택트 🛸", "외계와의 소통, 인간의 감정과 과학의 만남을 좋아하는 당신에게!"),
-    "INFP": ("월터의 상상은 현실이 된다 🌍", "내면의 꿈을 향해 수학적 상상력을 펼치는 여정!"),
-    "ENFP": ("백 투 더 퓨처 ⏳", "시간여행처럼 에너지 넘치는 당신에게 추천!"),
-    "ENFJ": ("히든 피겨스 🚀", "당신의 공감 능력, 사회적 정의감에 딱 맞는 과학 실화!"),
-    "ISTJ": ("2001: 스페이스 오디세이 🛰️", "논리와 분석력의 끝판왕!"),
-    "ISFJ": ("마션 🪐", "헌신적이고 현실적인 당신, 감동적인 생존 스토리 좋아하실 듯!"),
-    "ESTJ": ("아이언맨 🦾", "효율적이고 카리스마 있는 당신, 기술의 끝을 보여줄게요!"),
-    "ESFJ": ("페르마의 밀실 🔐", "추리와 팀워크가 중요한 수학 서스펜스!"),
-    "ISTP": ("테넷 ⏱️", "복잡한 구조 속에서도 중심을 잡는 당신에게!"),
-    "ISFP": ("월-E 🤖", "감성적이고 따뜻한 과학적 메시지가 있는 영화!"),
-    "ESTP": ("루시 🧬", "즉흥적이고 모험을 좋아하는 당신, 뇌의 끝을 보자!"),
-    "ESFP": ("쥬라기 월드 🦖", "스릴 넘치는 공룡 어드벤처, 무조건 신남 보장!"),
+# MBTI → 수학자 매핑
+mbti_math = {
+  "INTJ": {"name":"에바 카르단(É.카르단)", "img":"https://upload.wikimedia.org/.../Cardan.jpg",
+           "theorem":"카르단의 공식 (삼차방정식 해법)", "desc":"체계적이고 전략적인 당신과 잘 어울려요."},
+  "INTP": {"name":"앨버트 아인슈타인", "img":"https://upload.wikimedia.org/.../Einstein.jpg",
+           "theorem":"E = mc²", "desc":"호기심 많고 이론적인 당신!"}, 
+  "ENTP": {"name":"존 폰 노이만", "img":"https://upload.wikimedia.org/.../Neumann.jpg",
+           "theorem":"게임 이론", "desc":"창의적이고 아이디어 넘치는 당신"},
+  "ENTJ": {"name":"카를 가우스", "img":"https://upload.wikimedia.org/.../Gauss.jpg",
+           "theorem":"1+2+…+n = n(n+1)/2", "desc":"논리적 리더십의 대표주자"},
+  "INFJ": {"name":"블레즈 파스칼", "img":"https://upload.wikimedia.org/.../Pascal.jpg",
+           "theorem":"파스칼의 삼각형", "desc":"깊이 생각하는 당신에게 딱!"},
+  "INFP": {"name":"피에르 드 페르마", "img":"https://upload.wikimedia.org/.../Fermat.jpg",
+           "theorem":"페르마의 소정리", "desc":"상상력과 이상을 사랑하는 당신"},
+  "ENFP": {"name":"스리니바사 라마누잔", "img":"https://upload.wikimedia.org/.../Ramanujan.jpg",
+           "theorem":"무한급수", "desc":"감성과 직관이 뛰어난 당신"},
+  "ENFJ": {"name":"마리아 미르자코바", "img":"https://upload.wikimedia.org/.../Mirzakhani.jpg",
+           "theorem":"측지선과 곡면 연구", "desc":"공감력과 리더십이 빛나는 당신"},
+  "ISTJ": {"name":"유클리드", "img":"https://upload.wikimedia.org/.../Euclid.jpg",
+           "theorem":"기하학 기본 공리", "desc":"체계적이고 규칙적인 당신"},
+  "ISFJ": {"name":"에밀리 두 샤틀리에", "img":"https://upload.wikimedia.org/.../Chatelet.jpg",
+           "theorem":"물리·수학 통섭", "desc":"헌신적이고 책임감 있는 당신"},
+  "ESTJ": {"name":"라이프니츠", "img":"https://upload.wikimedia.org/.../Leibniz.jpg",
+           "theorem":"미분적분학 공동 발견", "desc":"실용적이고 추진력 있는 당신"},
+  "ESFJ": {"name":"에이다 러브레이스", "img":"https://upload.wikimedia.org/.../Ada_Lovelace.jpg",
+           "theorem":"세계 최초 프로그램", "desc":"사람을 생각하는 따뜻한 당신"},
+  "ISTP": {"name":"에바리스트 갈루아", "img":"https://upload.wikimedia.org/.../Galois.jpg",
+           "theorem":"갈루아 이론", "desc":"직관력 있고 도전적인 당신"},
+  "ISFP": {"name":"소피 제르맹", "img":"https://upload.wikimedia.org/.../Sophie_Germain.jpg",
+           "theorem":"제르맹 소수", "desc":"내성적이지만 열정적인 당신"},
+  "ESTP": {"name":"앨런 튜링", "img":"https://upload.wikimedia.org/.../Turing.jpg",
+           "theorem":"튜링 기계", "desc":"실용적 해결 능력 천재"},
+  "ESFP": {"name":"헬레나 리비트", "img":"https://upload.wikimedia.org/.../Henrietta_L.jpg",
+           "theorem":"리비트의 변화율 관찰", "desc":"직감 있고 사람을 즐겁게 하는 당신"}
 }
 
-# 추천 영화 보여주기
-if selected_mbti in mbti_movies:
-    movie, desc = mbti_movies[selected_mbti]
-    st.success(f"🎁 당신에게 추천하는 영화는 바로... **{movie}**!")
-    st.markdown(f"📝 {desc}")
-    st.balloons()
-elif selected_mbti != "-- 선택하세요 --":
-    st.warning("😥 알 수 없는 오류가 발생했어요. 다시 시도해주세요.")
+# 결과
+if selected in mbti_math:
+    d = mbti_math[selected]
+    st.header(f"👉 당신과 닮은 수학자: **{d['name']}**")
+    st.image(d["img"], width=250)
+    st.markdown(f"**설명**: {d['desc']}")
+    st.markdown(f"**대표 정리**: {d['theorem']}")
+    st.markdown("✉️ 수학자에게 전하고 싶은 말이나 느낀 점을 적어보세요:")
+    letter = st.text_area("📩 편지 작성", height=100)
+    if st.button("전송하기"):
+        st.success("성공적으로 전송했어요! 👍")
+        st.write("당신의 편지:")
+        st.write(letter)
+elif selected != "-- 선택 --":
+    st.warning("해당 MBTI에 대한 정보는 곧 준비할게요.")
