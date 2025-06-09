@@ -1,12 +1,22 @@
 import streamlit as st
 
-# 제목과 설명
+# 페이지 기본 설정
 st.set_page_config(page_title="MBTI 영화 추천기 🎬", page_icon="🎥")
+
+# 제목
 st.title("🎬 MBTI별 수학·과학 영화 추천기 💡")
 st.markdown("너의 MBTI로 🎭 취향 저격 🎯 영화 한 편 골라줄게! 과학과 수학의 세계로 ✨풍~덩✨")
 
-# MBTI 입력 받기
-mbti_input = st.text_input("당신의 MBTI를 입력해주세요 (예: INTP, ESFJ)", max_chars=4).upper()
+# MBTI 리스트
+mbti_list = [
+    "INTJ", "INTP", "ENTP", "ENTJ",
+    "INFJ", "INFP", "ENFP", "ENFJ",
+    "ISTJ", "ISFJ", "ESTJ", "ESFJ",
+    "ISTP", "ISFP", "ESTP", "ESFP"
+]
+
+# 선택 박스에서 MBTI 선택
+selected_mbti = st.selectbox("👇 아래에서 당신의 MBTI를 선택해주세요!", ["-- 선택하세요 --"] + mbti_list)
 
 # MBTI 별 추천 영화 데이터
 mbti_movies = {
@@ -18,7 +28,7 @@ mbti_movies = {
     "INFP": ("월터의 상상은 현실이 된다 🌍", "내면의 꿈을 향해 수학적 상상력을 펼치는 여정!"),
     "ENFP": ("백 투 더 퓨처 ⏳", "시간여행처럼 에너지 넘치는 당신에게 추천!"),
     "ENFJ": ("히든 피겨스 🚀", "당신의 공감 능력, 사회적 정의감에 딱 맞는 과학 실화!"),
-    "ISTJ": ("큐브릭의 2001: 스페이스 오디세이 🛰️", "논리와 분석력의 끝판왕!"),
+    "ISTJ": ("2001: 스페이스 오디세이 🛰️", "논리와 분석력의 끝판왕!"),
     "ISFJ": ("마션 🪐", "헌신적이고 현실적인 당신, 감동적인 생존 스토리 좋아하실 듯!"),
     "ESTJ": ("아이언맨 🦾", "효율적이고 카리스마 있는 당신, 기술의 끝을 보여줄게요!"),
     "ESFJ": ("페르마의 밀실 🔐", "추리와 팀워크가 중요한 수학 서스펜스!"),
@@ -28,12 +38,11 @@ mbti_movies = {
     "ESFP": ("쥬라기 월드 🦖", "스릴 넘치는 공룡 어드벤처, 무조건 신남 보장!"),
 }
 
-# 추천 로직
-if mbti_input:
-    if mbti_input in mbti_movies:
-        movie, desc = mbti_movies[mbti_input]
-        st.success(f"🎁 당신에게 추천하는 영화는 바로... **{movie}**!")
-        st.markdown(f"📝 {desc}")
-        st.balloons()  # 풍선 효과
-    else:
-        st.warning("😥 알 수 없는 MBTI입니다. 다시 정확히 입력해 주세요!")
+# 추천 영화 보여주기
+if selected_mbti in mbti_movies:
+    movie, desc = mbti_movies[selected_mbti]
+    st.success(f"🎁 당신에게 추천하는 영화는 바로... **{movie}**!")
+    st.markdown(f"📝 {desc}")
+    st.balloons()
+elif selected_mbti != "-- 선택하세요 --":
+    st.warning("😥 알 수 없는 오류가 발생했어요. 다시 시도해주세요.")
